@@ -27,10 +27,7 @@ IDICT <- 2
 dict <- c("VAE_normal_samplesoriginal.csv", "VAE_normal_samplesgenerated.csv")
 #dict <- c("WAE_normal_samplesoriginal.csv", "WAE_normal_samplesgenerated.csv")
 flnm <- dict[IDICT]
-xfrauds <- read.table( paste("/home/jeremy/Documents/SnT/Data/credit_card_fraud/", flnm, sep="") , sep=',')
-if(dim(xfrauds)[1]>800) {
-  xfrauds <- xfrauds[1:800,]
-}
+xfrauds <- read.table( paste("/credit_card_fraud/", flnm, sep="") , sep=',')
 
 
 lastcolumn <- dim(xfrauds)[2] - 1
@@ -117,8 +114,8 @@ forceNetwork(
   NodeID = "Nodename",
   Group = "cc.maj.vertex", 
   #colourScale = JS("d3.scaleOrdinal(d3.schemeCategory10);"),
-  #colourScale = JS('d3.scaleOrdinal().domain(["Fraud", "Normal"]).range(["#000000", "#cccccc"])'),
-  colourScale = JS('d3.scaleOrdinal().domain(["Normal"]).range(["#cccccc"])'), 
+  colourScale = JS('d3.scaleOrdinal().domain(["Fraud", "Normal"]).range(["#000000", "#cccccc"])'),
+  #colourScale = JS('d3.scaleOrdinal().domain(["Normal"]).range(["#cccccc"])'), 
   opacity = 1, 
   linkDistance = JS("function(d){return d.value * 10}"), 
   charge = -REPULSION, # strength of the node repulsion (<0) or attraction (>0)
@@ -131,29 +128,24 @@ forceNetwork(
 
 #### Rips Diagram and Barcode
 if (BOTTLENECKDIST == 1) {
-  rowlimit <- 800
   maxscale <- 5 # limit of the filtration
   maxdimension <- 1 # components and loops
   
   IDICT <- 1
   flnm <- dict[IDICT]
-  xfrauds <- read.table( paste("/home/jeremy/Documents/SnT/Data/credit_card_fraud/", flnm, sep="") , sep=',')
-  if (dim(xfrauds)[1]>rowlimit) {
-    xfrauds <- xfrauds[1:rowlimit,]  
-  }
-  #Diag1 <- ripsDiag(X = xfrauds[,1:lastcolumn], maxdimension, maxscale, library = "GUDHI", printProgress = TRUE)
-  Diag1 <- alphaComplexDiag(X = xfrauds[,1:lastcolumn], printProgress = TRUE)
+  xfrauds <- read.table( paste("/credit_card_fraud/", flnm, sep="") , sep=',')
+  
+  Diag1 <- ripsDiag(X = xfrauds[,1:lastcolumn], maxdimension, maxscale, library = "GUDHI", printProgress = TRUE)
+  #Diag1 <- alphaComplexDiag(X = xfrauds[,1:lastcolumn], printProgress = TRUE)
   #Diag1 <- alphaShapeDiag(X = xfrauds[,1:lastcolumn], printProgress = TRUE)
   #plot(Diag1[["diagram"]], barcode = TRUE)
   
   IDICT <- 2
   flnm <- dict[IDICT]
-  xfrauds <- read.table( paste("/home/jeremy/Documents/SnT/Data/credit_card_fraud/", flnm, sep="") , sep=',')
-  if (dim(xfrauds)[1]>rowlimit) {
-    xfrauds <- xfrauds[1:rowlimit,]
-  }
-  #Diag2 <- ripsDiag(X = xfrauds[,1:lastcolumn], maxdimension, maxscale, library = "GUDHI", printProgress = TRUE)
-  Diag2 <- alphaComplexDiag(X = xfrauds[,1:lastcolumn], printProgress = TRUE)
+  xfrauds <- read.table( paste("/credit_card_fraud/", flnm, sep="") , sep=',')
+  
+  Diag2 <- ripsDiag(X = xfrauds[,1:lastcolumn], maxdimension, maxscale, library = "GUDHI", printProgress = TRUE)
+  #Diag2 <- alphaComplexDiag(X = xfrauds[,1:lastcolumn], printProgress = TRUE)
   #Diag2 <- alphaShapeDiag(X = xfrauds[,1:lastcolumn], printProgress = TRUE)
   #plot(Diag2[["diagram"]], barcode = TRUE)
   
